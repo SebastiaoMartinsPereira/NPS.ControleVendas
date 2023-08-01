@@ -1,15 +1,16 @@
 ﻿using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using NPS.AuthApi.Domain;
+using NPS.AuthApi.Model;
 
 namespace NPS.AuthApi.Data
 {
-    public abstract class MongoDbContextBase : IMongoDbContextBase
+    public class MongoDbContextBase : IMongoDbContextBase
     {
         public IMongoClient MongoClient { get; }
         private readonly IMongoDatabase database;
 
-        protected MongoDbContextBase(ISettingsProvider settings)
+        public MongoDbContextBase(IAppSettingsProvider settings)
         {
             if (settings is null)
             {
@@ -17,11 +18,9 @@ namespace NPS.AuthApi.Data
             }
 
             var url = new MongoUrl(settings.MongoDbConfig.ConnectionString);
-            MongoClient = new MongoClient(url);
-            database = MongoClient.GetDatabase(url.DatabaseName);
+            MongoClient = new MongoClient(url); 
+            database = MongoClient.GetDatabase(settings.MongoDbConfig.DataBaseName);
         }
-
-        protected abstract void OnRegisterMappers();
 
         public virtual void RegisterClassMap<Entity, Mapper>() where Mapper : BsonClassMap<Entity>, new()
         {
@@ -29,7 +28,7 @@ namespace NPS.AuthApi.Data
 
         }
 
-        public IMongoCollection<TDocument> GetCollection<TDocument>(string name) where TDocument : class
+        public IMongoCollection<TDocument> GetCollection<TDocument>(string name) where TDocument : IDocument
         {
             return database.GetCollection<TDocument>(name);
         }

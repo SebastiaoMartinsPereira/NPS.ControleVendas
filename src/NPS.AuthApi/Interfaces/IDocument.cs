@@ -12,5 +12,6 @@ namespace NPS.AuthApi.Model
 
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         DateTime CreatedAt { get; }
+        DateTime ModifiedAt { get; }
     }
 }
