@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace NPS.AuthApi.Controllers
+namespace NPS.WebAppGW.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -18,7 +18,7 @@ namespace NPS.AuthApi.Controllers
             _logger = logger;
         }
 
-        [HttpGet("oche", Name = "GetWeatherForecast")]
+        [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast

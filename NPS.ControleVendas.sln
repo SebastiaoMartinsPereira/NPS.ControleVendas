@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "APIs", "APIs", "{A15CCBDA-2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NPS.AuthApi", "src\NPS.AuthApi\NPS.AuthApi.csproj", "{A71F5B77-6A1D-4A6C-9920-4221958810D2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPS.WebAppGW", "src\NPS.WebAppGW\NPS.WebAppGW.csproj", "{08FED5A4-B85C-441A-A9A9-22F354113B41}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,12 +25,17 @@ Global
 		{A71F5B77-6A1D-4A6C-9920-4221958810D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A71F5B77-6A1D-4A6C-9920-4221958810D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A71F5B77-6A1D-4A6C-9920-4221958810D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08FED5A4-B85C-441A-A9A9-22F354113B41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08FED5A4-B85C-441A-A9A9-22F354113B41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08FED5A4-B85C-441A-A9A9-22F354113B41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08FED5A4-B85C-441A-A9A9-22F354113B41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A71F5B77-6A1D-4A6C-9920-4221958810D2} = {A15CCBDA-2356-43E3-97C1-C7027BC94732}
+		{08FED5A4-B85C-441A-A9A9-22F354113B41} = {A15CCBDA-2356-43E3-97C1-C7027BC94732}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F958EC9A-6565-419F-9AF3-32F84D11E359}
