@@ -12,6 +12,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
+import { AuthApiService } from './services/auth-api.service';
+import { ApiHttpService } from './core/api-http.service';
 
 
 @NgModule({
@@ -29,7 +31,10 @@ import { ComponentsModule } from './components/components.module';
     AdminLayoutComponent,
     AuthLayoutComponent
   ],
-  providers: [],
+  providers: [
+    ApiHttpService,
+    AuthApiService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { AuthApiService } from 'src/app/services/auth-api.service';
 
 @Component({
   selector: 'app-login',
@@ -6,11 +7,19 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  constructor() {}
 
-  ngOnInit() {
+  onLogin() {
+    this.authApiService.getToken("sebastiao.pereira","sebastiao");
   }
-  ngOnDestroy() {
+
+  constructor(
+     private authApiService: AuthApiService
+  ) {
+    debugger;
   }
+
+  ngOnInit() {}
+
+  ngOnDestroy() {}
 
 }

@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Microsoft.IdentityModel.Tokens;
 using NPS.AuthApi.Data;
 using NPS.AuthApi.Domain;
 using NPS.AuthApi.Model;
+using NPS.AuthApi.ViewModel;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -17,24 +20,37 @@ namespace NPS.AuthApi.Controllers
     {
         private readonly IAppSettingsProvider settingsProvider;
         private readonly IMongoRepository<UserInfo> mongoRepository;
+        private readonly IStringLocalizer<Resources.Resources> _localizer;
 
-        public AuthController(IAppSettingsProvider settingsProvider, IMongoRepository<UserInfo> mongoRepository)
+
+        public AuthController(
+            IAppSettingsProvider settingsProvider,
+            IMongoRepository<UserInfo> mongoRepository,
+            IStringLocalizer<Resources.Resources> localizer)
         {
             this.settingsProvider = settingsProvider ?? throw new ArgumentNullException(nameof(settingsProvider));
             this.mongoRepository = mongoRepository ?? throw new ArgumentNullException(nameof(mongoRepository));
+            _localizer = localizer;
         }
 
-        [HttpPost("token")]
-        public async Task<IActionResult> Post(UserInfo userInfo)
+        [HttpPost("token", Name = "Token")]
+        public async Task<IActionResult> Post(UserLogin userInfo)
         {
             JwtSecurityToken? token = null;
+            Claim[]? claims = null;
 
             await Task.Run(() =>
             {
-                var user = mongoRepository.FindOne((a) => a.UserName.Equals(userInfo.UserName) && a.Password.Equals(userInfo.Password));
+                var user = mongoRepository.FindOne((a) => (a.UserName.Equals(userInfo.Login) || a.Email.Equals(userInfo.Login)) && a.Password.Equals(userInfo.Password));
+
+                if (user is null)
+                {
+                    ModelState.AddModelError(_localizer["InvalidLoginPass"], _localizer["InvalidLoginPass"]);
+                    return;
+                }
 
                 //create claims details based on the user information
-                var claims = new[] {
+                claims = new[] {
                         new Claim(JwtRegisteredClaimNames.Sub, settingsProvider.Jwt?.Subject??""),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                         new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
@@ -56,10 +72,16 @@ namespace NPS.AuthApi.Controllers
             });
 
 
-            return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+            if (ModelState.ErrorCount > 0) return ValidationProblem(ModelState);
+
+            return Ok(new
+            {
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
+                Claims = claims
+            });
         }
 
-        [HttpPost("testes")]
+        [HttpPost("testes", Name = "Testes")]
         public async Task<IActionResult> Post(string userInfo)
         {
 
@@ -75,7 +97,7 @@ namespace NPS.AuthApi.Controllers
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
-        [HttpPost("testesWitRole")]
+        [HttpPost("testesWitRole", Name = "TestesRole")]
         public async Task<IActionResult> AuthorizeWithRole(string userInfo)
         {
 
@@ -83,7 +105,7 @@ namespace NPS.AuthApi.Controllers
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "NotAdmin")]
-        [HttpPost("testesWitRoleNotAdmin")]
+        [HttpPost("testesWitRoleNotAdmin", Name = "TestesWitAdminRoles")]
         public async Task<IActionResult> AuthorizeWithRoleNotAdmin(string userInfo)
         {
 

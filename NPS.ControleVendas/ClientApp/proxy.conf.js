@@ -1,18 +1,27 @@
 const { env } = require('process');
 
 const target = env.ASPNETCORE_HTTPS_PORT ? `https://localhost:${env.ASPNETCORE_HTTPS_PORT}` :
-  env.ASPNETCORE_URLS ? env.ASPNETCORE_URLS.split(';')[0] : 'http://localhost:33793';
+  env.ASPNETCORE_URLS ? env.ASPNETCORE_URLS.split(';')[0] : 'https://localhost:7167';
 
 const PROXY_CONFIG = [
   {
     context: [
-      "/weatherforecast",
+      "/api/*"
    ],
     proxyTimeout: 10000,
-    target: target,
+    target: "https://localhost:7167",
     secure: false,
     headers: {
       Connection: 'Keep-Alive'
+    }
+  },
+  {
+    "/api/*": {
+    "target": "https://localhost:7167",
+    "secure": false,
+    headers: {
+        Connection: 'Keep-Alive'
+      }
     }
   }
 ]

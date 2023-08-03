@@ -1,9 +1,13 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NPS.AuthApi.Data;
 using NPS.AuthApi.Domain;
 using NPS.AuthApi.Model;
+using NPS.Core;
+using System.Globalization;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,7 +40,29 @@ builder.Services
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.OperationFilter<AddRequiredHeaderParameter>();
+});
+
+builder.Services.AddLocalization();
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new List<CultureInfo>
+    {
+        new CultureInfo("en-US"),
+        new CultureInfo("pt-BR")
+    };
+
+    options.DefaultRequestCulture = new RequestCulture(culture: "en-US", uiCulture: "en-US");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+});
+
+
+builder.Services.AddCors(p => p.AddDefaultPolicy(policy => policy.WithOrigins("*").AllowAnyHeader().AllowAnyMethod()));
+builder.Services.AddProblemDetails();
 
 builder.Services.AddScoped<IAppSettingsProvider>(a => new AppSettingsProvider(builder.Configuration));
 builder.Services.AddScoped<IMongoDbContextBase, MongoDbContextBase>();
@@ -60,13 +86,28 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseExceptionHandler();
+app.UseStatusCodePages();
+
+
+IOptions<RequestLocalizationOptions>? locationzationOption = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
+if (locationzationOption != null)
+    app.UseRequestLocalization(locationzationOption.Value);
+
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseAuthentication();
 app.MapControllers();
+
+//Add middleware to change de language Culture to user Resource file
+app.UseRequestCulture();
+  
+
+app.UseCors(x => x.AllowAnyMethod().AllowAnyHeader().SetIsOriginAllowed(origin => true).AllowCredentials());  
 
 app.Run();
