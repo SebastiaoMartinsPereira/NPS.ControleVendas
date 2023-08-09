@@ -16,14 +16,11 @@ export class AppComponent implements OnInit{
   constructor( 
     private authApiService: AuthApiService
   ) {
-    console.log(this.globalConstantes.API_AUTH_ENDPOINT);
+    
   }
 
   ngOnInit(): void {
-    console.log(this.title); 
-    console.log("pasei aqui"); 
-    this.authApiService.getToken("sebastiao.pereira","1234123");
-    console.log("e depois passei aqui"); 
+    console.log(this.title);
   }
  
 }

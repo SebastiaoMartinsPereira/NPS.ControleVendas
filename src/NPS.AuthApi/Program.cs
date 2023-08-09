@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
 using NPS.AuthApi.Data;
 using NPS.AuthApi.Domain;
 using NPS.AuthApi.Model;
@@ -68,11 +67,9 @@ if (app.Environment.IsDevelopment())
 app.UseExceptionHandler();
 app.UseStatusCodePages();
 
-
 IOptions<RequestLocalizationOptions>? locationzationOption = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
 if (locationzationOption != null)
     app.UseRequestLocalization(locationzationOption.Value);
-
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
@@ -81,7 +78,6 @@ app.MapControllers();
 
 //Add middleware to change de language Culture to user Resource file
 app.UseRequestCulture();
-
 
 app.UseCors(x => x.AllowAnyMethod().AllowAnyHeader().SetIsOriginAllowed(origin => true).AllowCredentials());
 

@@ -41,7 +41,7 @@ namespace NPS.AuthApi.Controllers
 
             await Task.Run(() =>
             {
-                var user = mongoRepository.FindOne((a) => (a.UserName.Equals(userInfo.Login) || a.Email.Equals(userInfo.Login)) && a.Password.Equals(userInfo.Password));
+                UserInfo? user = mongoRepository.FindOne((a) => (a.UserName.Equals(userInfo.Login) || a.Email.Equals(userInfo.Login)) && a.Password.Equals(userInfo.Password));
 
                 if (user is null)
                 {
@@ -74,11 +74,8 @@ namespace NPS.AuthApi.Controllers
 
             if (ModelState.ErrorCount > 0) return ValidationProblem(ModelState);
 
-            return Ok(new
-            {
-                Token = new JwtSecurityTokenHandler().WriteToken(token),
-                Claims = claims
-            });
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+            return Ok(new UserLoginResponse(claims!.Where(c => c.Type.Equals("DisplayName")).First().Value, claims!.Where(c => c.Type.Equals("UserName")).First().Value, claims!.Where(c => c.Type.Equals("Email")).First().Value, tokenString, claims));
         }
 
         [HttpPost("testes", Name = "Testes")]

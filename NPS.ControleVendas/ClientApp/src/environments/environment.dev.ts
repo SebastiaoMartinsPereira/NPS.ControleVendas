@@ -3,8 +3,8 @@ export const environment = {
   production: false, 
   hmr: true,
   version: env.npm_package_version + '-dev',
-  serverUrl: 'https://localhost:7167/api/',
-  versionApi: 'v1',
+  serverUrl: 'https://localhost:7167/api',
+  versionApi: '',
   defaultLanguage: 'pt-BR',
   supportedLanguages: [
     'pt-BR'

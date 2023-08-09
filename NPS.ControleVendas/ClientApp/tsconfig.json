@@ -8,6 +8,9 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "paths": {
+      "@env": [ "environments/index.ts" ]
+    },
     "typeRoots": [
       "node_modules/@types"
     ],
