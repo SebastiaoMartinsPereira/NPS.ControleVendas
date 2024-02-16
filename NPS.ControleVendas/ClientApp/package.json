@@ -19,7 +19,7 @@
     "@angular/core": "^17.2.1",
     "@angular/elements": "^17.2.1",
     "@angular/forms": "^17.2.1",
-    "@angular/google-maps": "^14.2.0",
+    "@angular/google-maps": "^15.2.9",
     "@angular/localize": "^17.2.1",
     "@angular/material": "^16.2.14",
     "@angular/platform-browser": "^17.2.1",
