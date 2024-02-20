@@ -33,7 +33,7 @@
     "clipboard": "2.0.10",
     "moment": "^2.29.4",
     "ngx-clipboard": "15.0.1",
-    "ngx-toastr": "14.2.2",
+    "ngx-toastr": "18.0.0",
     "nouislider": "15.5.1",
     "rxjs": "~7.5.0",
     "web-animations-js": "2.3.2",
