@@ -1,0 +1,5 @@
+<div *ngIf="show" class="alert alert-{{type}}" role="alert">
+    <strong>{{header}}</strong> {{message}}
+    {{show}}
+    <ng-content></ng-content>
+</div>

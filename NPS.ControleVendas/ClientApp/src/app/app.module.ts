@@ -13,8 +13,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { AuthApiService } from './services/auth-api.service';
-import { ApiHttpService } from './core/api-http.service';
-import { LoginComponent } from './pages/login/login.component';
+import { ApiHttpService } from './core/api-http.service'; 
 
 
 @NgModule({

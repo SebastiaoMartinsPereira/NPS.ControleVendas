@@ -10,6 +10,9 @@ import { AuthApiService } from 'src/app/services/auth-api.service';
 })
 export class LoginComponent implements OnInit, OnDestroy {
   formLogin: FormGroup;
+  alert :any;
+  sampleAlert :any;
+
   constructor(
     private authApiService: AuthApiService,
     private fb: FormBuilder
@@ -18,10 +21,42 @@ export class LoginComponent implements OnInit, OnDestroy {
       email: new FormControl('', [Validators.required, Validators.minLength(5)]), 
       password:  new FormControl('',[Validators.required, Validators.minLength(5)]),
     });
+
+    this.alert = {
+      type:"alert-secondary",
+      show:false,
+      header:"",
+      message:""
+    };
+
+    this.sampleAlert = {
+      type:"secondary",
+      show:false,
+      header:"testes do testes",
+      message:"testes mais uma vez"
+    };
+
   }
   onLogin(password: any, login: any) {
 
-    if(!this.formLogin.valid) {console.log("campos inválidos"); return; }
+    if(!this.formLogin.valid) {
+      this.sampleAlert = {
+        type:"info",
+        show:true,
+        header:"Atenção:",
+        message:" Preencher os campos email e password!"
+      };
+
+      setTimeout(() => {
+        this.sampleAlert = {
+          type:"info",
+          show:false,
+          header:"",
+          message:""
+        };
+      }, 2000);
+
+      return; }
     console.log(password, login);
     if (password.value && login.value) {
       this.authApiService.getToken(login, password).pipe(
@@ -32,11 +67,17 @@ export class LoginComponent implements OnInit, OnDestroy {
         complete: console.info,
         error: (error)=>{
           console.log(error)
+          this.alert.show = true;
+          this.alert.header = "Atenção";
+          this.alert.message = "Dados de login parecem estar inválidos, verifique e preencha novamente!";
         }
       })
     }
   }
 
+  showAlert(){
+    return this.alert.show;
+  }
 
   ngOnInit() {
   }

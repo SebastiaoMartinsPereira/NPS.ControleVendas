@@ -6,18 +6,21 @@ import { AuthLayoutRoutes } from './auth-layout.routing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { LoginComponent } from '../../pages/login/login.component';
-import { RegisterComponent } from '../../pages/register/register.component'; 
+import { RegisterComponent } from '../../pages/register/register.component';  
+import { AlertComponent } from 'src/app/components/alert/alert.component';
+import { ComponentsModule } from 'src/app/components/components.module';
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(AuthLayoutRoutes),
     FormsModule,
     // NgbModule
-    ReactiveFormsModule
+    ReactiveFormsModule 
   ],
-  declarations: [
+  declarations: [ 
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    AlertComponent
   ]
 })
 export class AuthLayoutModule { }
