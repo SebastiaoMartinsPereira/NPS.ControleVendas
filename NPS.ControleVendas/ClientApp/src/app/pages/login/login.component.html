@@ -23,10 +23,7 @@
     <div class="col-lg-5 col-md-7">
       <div class="card bg-secondary shadow border-0">
         
-        <div *ngIf="sampleAlert.show" class="alert alert-{{sampleAlert.type}}" role="alert">
-          <strong>{{sampleAlert.header}}</strong> {{sampleAlert.message}}
-        </div>
-        <app-alert show="{{sampleAlert.show}}">
+        <app-alert [alert]="sampleAlert">
           <p>colocar a merda que eu quiser</p>
         </app-alert>
 

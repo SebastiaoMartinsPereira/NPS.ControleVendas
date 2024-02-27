@@ -1,5 +1,4 @@
-<div *ngIf="show" class="alert alert-{{type}}" role="alert">
-    <strong>{{header}}</strong> {{message}}
-    {{show}}
+<div *ngIf="show()" class="alert alert-primary" role="alert">
+    <strong>{{ alert.show | json}}</strong>
     <ng-content></ng-content>
 </div>

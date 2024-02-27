@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
+import { Alert } from 'src/app/models/alert';
 import { AuthApiService } from 'src/app/services/auth-api.service'; 
 
 @Component({
@@ -11,7 +12,7 @@ import { AuthApiService } from 'src/app/services/auth-api.service';
 export class LoginComponent implements OnInit, OnDestroy {
   formLogin: FormGroup;
   alert :any;
-  sampleAlert :any;
+  sampleAlert :Alert;
 
   constructor(
     private authApiService: AuthApiService,
@@ -32,8 +33,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.sampleAlert = {
       type:"secondary",
       show:false,
-      header:"testes do testes",
-      message:"testes mais uma vez"
+      header:"",
+      message:"",
+      timeToHide:2
     };
 
   }
@@ -44,20 +46,14 @@ export class LoginComponent implements OnInit, OnDestroy {
         type:"info",
         show:true,
         header:"Atenção:",
-        message:" Preencher os campos email e password!"
+        message:" Preencher os campos email e password!",
+        timeToHide:2
       };
+      return; 
+    }
 
-      setTimeout(() => {
-        this.sampleAlert = {
-          type:"info",
-          show:false,
-          header:"",
-          message:""
-        };
-      }, 2000);
-
-      return; }
     console.log(password, login);
+    
     if (password.value && login.value) {
       this.authApiService.getToken(login, password).pipe(
         finalize(() => {

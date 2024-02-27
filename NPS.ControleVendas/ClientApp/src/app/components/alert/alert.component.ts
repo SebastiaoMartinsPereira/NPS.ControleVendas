@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Alert } from 'src/app/models/alert';
 
 @Component({
   selector: 'app-alert', 
@@ -7,10 +8,33 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class AlertComponent implements OnInit {
   @Input() 
-  show: boolean | null = false;
-  constructor() { }
+  alert: Alert; 
+  timeOutWindow: NodeJS.Timeout;
+   
+   
+
+  constructor() {
+
+  }
 
   ngOnInit(): void {
+
   }
   
+  show() {
+    console.log("Show:", JSON.stringify(this.alert));
+    console.log("retornando:", this.alert.show);
+    if (this.alert.timeToHide >= 0) {
+      this.timeOutWindow = setTimeout(() => {
+        this.alert = {
+          type: "info",
+          show: false,
+          header: "",
+          message: "",
+          timeToHide: 2
+        };
+      }, this.alert.timeToHide * 1000);
+    }
+    return this.alert.show;
+  }
 }
