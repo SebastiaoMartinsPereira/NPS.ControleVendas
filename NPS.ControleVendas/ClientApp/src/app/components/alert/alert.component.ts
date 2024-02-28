@@ -9,22 +9,23 @@ import { Alert } from 'src/app/models/alert';
 export class AlertComponent implements OnInit {
   @Input() 
   alert: Alert; 
-  timeOutWindow: NodeJS.Timeout;
+  timeOutWindow: any;
    
-   
-
+  
   constructor() {
 
   }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
   
   show() {
     console.log("Show:", JSON.stringify(this.alert));
-    console.log("retornando:", this.alert.show);
-    if (this.alert.timeToHide >= 0) {
+    if (this.alert.timeToHide >= 0 && this.alert.show) {
+
+      if(this.timeOutWindow>0){
+        clearTimeout(this.timeOutWindow)
+      }
+
       this.timeOutWindow = setTimeout(() => {
         this.alert = {
           type: "info",
