@@ -1,0 +1,7 @@
+ <app-alert [alert]="alert" *ngIf="show()"> 
+    <span bbuton class="alert-inner--icon"><i class="ni ni-key-25"></i></span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true" (click)="hide()">×</span>
+    </button>
+</app-alert>
+

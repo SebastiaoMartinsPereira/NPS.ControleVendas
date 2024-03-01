@@ -1,4 +1,7 @@
-<div *ngIf="show()" class="alert alert-primary" role="alert">
-    <strong>{{ alert.show | json}}</strong>
+<div *ngIf="show()" class="alert alert-{{alert.type}}" role="alert">
+    <ng-content select="[bbuton]" > </ng-content>
+    <span class="alert-inner--text">
+        <strong>{{alert.header}}</strong> {{alert.message}}
+    </span>
     <ng-content></ng-content>
 </div>

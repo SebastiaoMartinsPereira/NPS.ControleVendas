@@ -11,7 +11,7 @@ import { AuthApiService } from 'src/app/services/auth-api.service';
 })
 export class LoginComponent implements OnInit, OnDestroy {
   formLogin: FormGroup;
-  alert :any;
+  alert :Alert;
   sampleAlert :Alert;
 
   constructor(
@@ -27,7 +27,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       type:"alert-secondary",
       show:false,
       header:"",
-      message:""
+      message:"",
+      timeToHide:-1
     };
 
     this.sampleAlert = {
@@ -46,7 +47,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         type:"info",
         show:true,
         header:"Atenção:",
-        message:" Preencher os campos email e password!",
+        message:"Preencher os campos email e password!",
         timeToHide:2
       };
       return; 
@@ -64,6 +65,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         error: (error)=>{
           console.log(error)
           this.alert.show = true;
+          this.alert.type = "warning alert-dismissible";
           this.alert.header = "Atenção";
           this.alert.message = "Dados de login parecem estar inválidos, verifique e preencha novamente!";
         }
